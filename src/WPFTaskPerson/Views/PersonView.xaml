@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="WPFTaskPerson.Views.PersonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WPFTaskPerson.ViewModals"
+             xmlns:convert="clr-namespace:WPFTaskPerson.Service"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800"
+             Background="White">
+    <UserControl.DataContext>
+        <local:PersonViewModal />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <convert:BooleanToGenderConverter x:Key="BooleanToGenderConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="LightBlue" Offset="0.0"/>
+                <GradientStop Color="DarkBlue" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="10,0,0,0">
+            <StackPanel>
+                <Label Content="{Binding Message}" Foreground="Red" HorizontalContentAlignment="Center"/>
+                <Label Content="FirstName :" HorizontalContentAlignment="Left"/>
+                <TextBox  Name="txtFirstName" Height="26" VerticalContentAlignment="Center" Text="{Binding Path=CurrentPerson.FirstName, Mode=TwoWay}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtFirstName}" Value="">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtFirstName}" Value="{x:Null}">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Label Content="{Binding ElementName=txtFirstName,Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red" VerticalAlignment="Top" />
+                <Label Content="LastName :" HorizontalContentAlignment="Left"/>
+
+                <TextBox  Name="txtLastName" Height="26" VerticalContentAlignment="Center"  Text="{Binding Path=CurrentPerson.LastName,Mode=TwoWay}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtLastName}" Value="">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtLastName}" Value="{x:Null}">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Label Content="{Binding ElementName=txtLastName,Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red" VerticalAlignment="Top" />
+                <Label Content="DOB :" HorizontalContentAlignment="Left"/>
+                <DatePicker x:Name="dpDOB" Height="26" SelectedDate="{Binding Path=CurrentPerson.DOB,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  FocusVisualStyle="{x:Null}" >
+                </DatePicker>
+                <Label Content="{Binding ElementName=dpDOB,Path=(Validation.Errors)[1].ErrorContent}" Foreground="Red" VerticalAlignment="Top" />
+                <Label Content="Email :" HorizontalContentAlignment="Left"/>
+                <TextBox x:Name="txtEmail" Height="26" VerticalContentAlignment="Center"  Text="{Binding Path=CurrentPerson.Email,Mode=TwoWay}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtEmail}" Value="">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtEmail}" Value="{x:Null}">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Label Content="{Binding ElementName=txtEmail,Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red" VerticalAlignment="Top" />
+                <Label Content="Gender :" HorizontalContentAlignment="Left"/>
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton  x:Name="rbMale" GroupName="gender" Content="Male" FocusVisualStyle="{x:Null}" IsChecked="{Binding Path=CurrentPerson.Gender, Converter={StaticResource BooleanToGenderConverter}, ConverterParameter='Male', Mode=TwoWay}">
+                        </RadioButton>
+                        <RadioButton x:Name="rbFemale" GroupName="gender" Content="Female" FocusVisualStyle="{x:Null}" IsChecked="{Binding Path=CurrentPerson.Gender, Converter={StaticResource BooleanToGenderConverter}, ConverterParameter='Female', Mode=TwoWay}">
+                        </RadioButton>
+                    </StackPanel>
+                </Grid>
+
+                <Label Content="PhoneNumber :" HorizontalContentAlignment="Left"/>
+                <TextBox x:Name="txtPhone" Height="26" VerticalContentAlignment="Center" Text="{Binding Path=CurrentPerson.Phone,Mode=TwoWay}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtPhone}" Value="">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=Text, ElementName=txtPhone}" Value="{x:Null}">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Label Content="{Binding ElementName=txtPhone,Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red" VerticalAlignment="Top" />
+                <Label Content="Language :" HorizontalContentAlignment="Left"/>
+                <ComboBox Name="cmbLanguage" Height="26" Text="{Binding Path=CurrentPerson.Language,Mode=TwoWay}" FocusVisualStyle="{x:Null}">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedItem, ElementName=cmbLanguage}" Value="{x:Null}">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBoxItem Content="English"/>
+                    <ComboBoxItem Content="Spanish"/>
+                    <ComboBoxItem Content="Hindi"/>
+                </ComboBox>
+                <Label Content="{Binding ElementName=cmbLanguage,Path=(Validation.Errors)[0].ErrorContent}" Foreground="Red" VerticalAlignment="Top" />
+                <Label Content="ID :" HorizontalContentAlignment="Left"/>
+                <TextBox x:Name="txtId" Height="26"  VerticalContentAlignment="Center"  Text="{Binding Path=CurrentPerson.Id, Mode=TwoWay}"
+FocusVisualStyle="{x:Null}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Padding="10" Content="Add" Background="#2260f2" Margin="0,0,0,10"
+Height="40" Width="80" Command="{Binding Path=SaveCommand}"/>
+                    <Button Content="Update" Background="#affad7" Padding="10"  Margin="20,0,0,10"
+Height="40" Width="80" Command="{Binding Path=UpdateCommand}"/>
+                    <Button Content="Delete" Background="#d9323d" Padding="10"  Margin="50,0,0,0"
+ Height="40" Width="80" Command="{Binding Path=DeleteCommand}"/>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Column="1" Margin="0,25,0,0">
+            <DataGrid x:Name="UserDataGrid"  AutoGenerateColumns="False" Margin="10,0,10,100"
+        SelectionMode="Single" SelectedItem="{Binding CurrentPerson, Mode=TwoWay}" ItemsSource="{Binding Path=PersonList,Mode=TwoWay}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Path=Id,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding FirstName,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="Date of Birth" Binding="{Binding DOB,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone,Mode=TwoWay}"/>
+                    <DataGridTextColumn Header="Language" Binding="{Binding Language,Mode=TwoWay}"/>
+                </DataGrid.Columns>
+               
+            </DataGrid>
+        </Grid>
+       
+    </Grid>
+</UserControl>
